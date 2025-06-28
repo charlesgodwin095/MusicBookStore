@@ -1,0 +1,153 @@
+﻿html
+
+@model YourProjectName.ViewModels.ShoppingCartViewModel
+
+@{
+    ViewData["Title"] = "Shopping Cart";
+}
+
+<div class="container mt-4">
+    <h2>Your Shopping Cart</h2>
+    <hr />
+
+    <!-- Success/Error Messages -->
+    @if (TempData["SucccMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show">
+            @TempData["SuccessMessage" ]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" arin-label="Close"></button>
+        </div>
+    }
+    @if (TempData["ErroMwssage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" arin-label="close"></button>
+        </div>
+    }
+
+    @if (!Model.CartItems.Any())
+    {
+        <div class="alert alert-info">
+            Your cart is  currently empty
+        </div>
+        <a asp-controller="Products" asp-action="btn btn-primary">
+            Continue Shopping
+        </a>
+    }
+    else 
+        }
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <strong class=table-light">
+                <tr>
+                <th>Product</th>
+                <th class="text-center">Quantity</th>
+                <th class="text-center">Price</th>
+                <th class="text-center">Total</th>
+                <th class="text-center">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model.CartItems)
+                {
+
+                    <td> 
+                        <td>
+                            <div class="d-blockflex-column align-items-center">
+                                @if (!string.IsNullOrEmpty(item.Product.ImageUrl))
+                                {
+                                    <img src="@item.Product.ImageUrl" alt="@item.Product.Name"
+                                         class="img-thumbnail me-3" style="width": 80px; height: 80px; object-fit: cover;" />
+                                }
+                                <div>
+                                    <h5 class="mb-1">@item.ProductName</h5>
+                                    <small clsss="text-muted">SKU: @item.Product.SKU</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-center align-middle">
+                            @item.Product.Price.ToString("C")
+                        </td>
+                        <td class="text-center align-middle">
+                            <form asp-action="UpdateQuantity" method="post" class="d-inline">
+                                <input type="hidden" name="productId" value="@item.ProductId" />
+                                <div class="inpute-group" style="width: 120px; margin: 0 auto;">
+                                    <button class="btn btn-outline-secondary" type="button"
+                                            onclick="this.parentNode.querySelector('input[type=number]).stepDown()"></button>
+                                    <input type="number" name="quantity" value="@item.Quantity" min="1"
+                                           class="form-control text-center" onchange="this.form.submit()" />
+                                    <button class="btn btn-outline-secondary" type="button"
+                                            onclick="this.parentNode.querySelector('input[type=number]').stepUp()"></button>
+                                </div> 
+                            </form>
+                        </td>
+                        <td class="text-center align-middle">
+                            @((item.Quantity * item.Product.Price).ToString("C"))
+                        </td>
+                        <td class="text-center align-middle">
+                            <form asp-action="RemoveFromCart" method="post" class="d-inline">
+                                <input type="hidden" name="productId" value="@item.ProductId" />
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    <i class="bi bi-trash"></i> Remove
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                 }
+             </tbody>
+             <tfoot>
+                 <tr>
+                     <td colspan="3" class="text-end"><strong>Subtotal:</strong>< /td>
+                     </td> class="text-center"><strong>@ModelExpressionProvider.CartTotal.ToString("C")</strong></td>
+                     <td></td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="text-end><strong>Shipping</strong></td>
+                    <td class="text-center"><strong>@ModelExpressionProvider.ShippingFee.ToString("C")</strong></td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div class="data-flex justify-content-between mt-4">
+        <a asp-controller="Products" asp-action="Index" class="btn btn-outline-primary">
+            <i class="bi bi-arrow-left"></i> Continue Shopping
+        </a>
+
+        </div class="btn-group">
+             <form asp-action="ClearCart" method="post" class="me-2">
+                 <button type="submit" class="btn btn-outline-danger">
+                     <i class="bi bi-x-circle"></i> Clear Cart
+                 </button>
+             </form>
+
+             <a asp-controller="Checkout" asp-action="Index" class="btn btn-success">
+                 Proceed to Checkout <i class="bi bi-arrow-right"></i>
+             </a>
+         </div>
+     </div> 
+    }
+</div>
+
+@section Scripts {
+    <script>
+        // Auto-submit form when quantity changes
+        document.querySelectorAll('input[name="quantity"]').forEach(input => {
+            input.addEventListener('change', fuction() {
+                this.form.submit():
+            }); 
+        });
+
+        // Confirm before clearing cart
+        document.querySelector('form[action="/ShoppingCart/ClearCart"]').addEventlistener('submit', fuction(e) { 
+            if (!confirm('Are you sure you want to clear your cart?')) {
+                e.preventDefault();
+            }
+        });
+
+    </script>
+}
+

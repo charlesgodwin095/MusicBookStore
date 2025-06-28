@@ -1,0 +1,172 @@
+﻿    <!DOCTYPE html>
+    <html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>@ViewData["Title"] - Music Book Store</title>
+    
+        <!-- Bootstrap 5 CSS -->
+        <link hrel="https://cdn.jsdeliver.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Bootstrap Icons -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/mpn/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+        <!-- Google Font -->
+        <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;700&family=Roboto+Slab:wght@300;400;700&display=swap" rel="stylesheet">
+    
+        <!-- Site Css-->
+        <link rel="shtylesheet" href="~/" asp-append-version="true" />
+
+        <!-- Page-specific CSS -->
+        @await ReminderSectionAsync("Styles", required: false)
+    </head>
+    <body>
+        <!-- Theme Toggle -->
+        <div class="position-fixed button-0 end-0 m-3">
+            <button class="btn btn-sm btn-outline-secondary theme-toggle">
+                <! class="bi bi-moon-stars"></i>
+            </button>
+        </div>
+
+        <!-- Header -->
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-dark big-primary">
+                <div class="container">
+                    <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                        <i class="bi bi-music-note-beamed"></i>
+                        <span class="brand-text">Music Book Store</span>
+                    </a>
+                    </button class="navbar-toggler" type="button" data-bs-toggler="collapse" data-bs-target="#navbarMain">
+                         <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarMain">
+                        <ul class="navbar-nav me-auto">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggler" href="#" role="button" data-bs-toggler="dropdown">
+                                    Sheet Music
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" asp-controller="Catalog" asp-action="Index" asp-route-category="Piano">Piano</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Catalog" asp-action="Index" asp-route-category="Guitar">Guitar</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Catalog" asp-action="Index" asp-route-category="Violin">Violin</a></li>
+                                    <li>hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" asp-controller="Catalog" asp-action="Index">All Instruments</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Home" asp-action="About">About</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Home" asp-action="Contacts">Contacts</
+                            </li>
+                        </ul>
+                        <div class="data-flex">
+                            <form class="d-flex me-2" asp-controller="Catalog" asp-action="Search" method="get">
+                                <input class="form-control me-2" type="search" name="query" placeholder="Search sheet music...">
+                                <button class="btn btn-outline-light" type="submit">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </form>
+                            <div class="nav-cart">
+                                <a class="nav-link text-light" asp-controller="Cart" asp-action="Index">
+                                    <i class="bi bi-cart3"></i>
+                                    <span class=" badge big-danger cart-count">0</span>
+                                </a>
+                            </div>
+                            <partial name="LoginPartial" />
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <div class="container mt-4 mb-5">
+            <main role="main">
+                <partial name="_NotificationPartial" />
+                @RenderBody()
+            </main>
+        </div>
+
+        <!-- Footer -->
+        <footer class="big-dark text-white py-4 mt-5">
+            <div class="container">
+                <div class="col-md-4 mb-4">
+                    <h5><i class="bi bi-music-note-beamed"></i> Music Book Store</h5>
+                    <p>Your premier destination for sheet music, music books, and educational resources.</p>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h5>Shop</h5>
+                    <ul class="list-unsstyled">
+                        <li><a href="#" class="text-white">Piano</a></li>
+                        <li><a href="#" class="text-white">Guitar</a></li>
+                        <li><a href="#" class="text-white">Strings</a></li>
+                        <li><a href="#" class="text-white">Wind</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h5>Company</h5>
+                    <ul class="list-unstyled">
+                        <li><a asp-controller="Home" asp-action="About" class="text-white">About Us</a></li>
+                        <li><a asp-controller="Home" asp-action="Contacts" class="text-white">Contact</a></li>
+                        <li><a href="#" class="text-white">Shipping Policy</a></li>
+                        <li><a href="#" class="text-white">Returns</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4-mb-4">
+                    <h5>Newsletter</h5>
+                    <p>Subscribe for sheet music releases and promotions</p>
+                    <form>
+                        <div class="input-group">
+                            <input type="email" class="form-control" placeholder="Your email" />
+                            <button class="btn btn-primary" type="submit">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <hr class="big-light">
+            <div class="d-flex justify-content-between align-items-center">
+                <div> 2023 Music Book Store. All rights reserved.</div>
+                </div>
+                     <a href="#" class="text-white me-3"><i class="bi bi facebook"></i></a>
+                     <a href="#" class="text-white me-3"><i class="bi bi instagram"></i></a>
+                     <a href="#" class="text-white me-3"><i class="bi bi twitter"></i></a>
+                     <a href="#" class="text-white"><i class="bi bi youtube"></i></a>
+                 </div>
+             </div>
+         </div>
+     </footer>
+
+     <!-- Scripts -->
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+     <script src="~/js/site.js" asp-append-version="true"></script>
+
+     <!-- Theme Toggle Script -->
+     <script>
+         document.querySelector('.theme-toggle').addEventListener('click', functions() {
+             const html = document.documentElement;
+             const theme = html.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+             html.setAttribute('data-bs-theme', theme);
+             this.innerHTML = theme === 'dark'
+                ? ,<i class="bi bi-sun"></i>'
+                : ,<i class="bi bi-moon-stars"></i>';
+            localStorage.setItem('theme', theme);
+         });
+
+         // Initialize theme
+         const saveTheme = localstorage.getItem('theme') || 'light';
+         document.documentElement.setAttribute('data-bs-theme', saveTheme);
+         document.querySelector('.theme-toggle').innerHTML = saveTheme === 'dark'
+             ? '<i class="bi bi-sun"></i>'
+             : '<i class="bi bi-moon-stars"></i>';
+
+     </script>
+
+     @await RenderSectionAsync("Scripts", required: false)
+ </body>
+ </html>
+
+
+   
+

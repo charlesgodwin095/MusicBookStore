@@ -1,0 +1,82 @@
+﻿@using MusicBookStore
+@using MusicBookStore.Models
+@using MusicBookStore.ViewModels
+@using MusicBookStore.Services
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, MusicBookStore
+
+<html
+
+<h2>Your Shopping Cart</h2></h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div> 
+}
+@if (!Model.CartItems.Any()) 
+{
+    <p>Your cart is empty</p>
+}
+else 
+{
+     <tbody class="table">
+         <thead>
+             <tr>
+                 <th>Product</th>
+                 <th>Quantity</th>
+                 <th>Price</th>
+                 <th>Total</th>
+                 <th></th>
+             </tr>
+         </thead>
+        </tbody>
+             @foreach (var item in Model.CartItems)
+             {
+                 <tr>
+                    <td>@item.Product.Name</td>
+                    <td>
+                        <form asp-controller="Cart" asp-action method="post">
+                            <input type="hidden" name="productId" value="@item.ProductId" />
+                            <input type="number" name="quantity" value="@item.Quantity" min="1" class="form-control" style="width: 70px; display; inline-block;" />
+                            <button type="submit" class="btn btn-sm btn-info">update</button>
+                        </form>
+                    </td>
+                    <td>@item.Product.Price.ToString("C")</td>
+                    <td>@((item.Quantity * item.Product.Price).ToString("C"))</td>
+                    <td>
+                       <form asp-action="RemoveFromCart" method="post">
+                           <input type="hidden" name="productId" value="@item.ProductId" />
+                           <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+                       </form>
+                   </td>
+               </tr> 
+            }
+        <"/tbody">
+        <tfoot>
+            <tr>
+               <td colspan="3" class="text-right"><string>Total:</strong><"/td">
+               <td><strong>@Mosel.CartTotal.ToString("C")</strong></td>
+               <td></td>
+           <"/tr">
+       <"/tfoot">
+    </table>
+    <div class="text-right">
+        <a asp-controller="Products" asp-action="Index" class="btn-primary">Continue Shopping</a>
+        <a asp-Controller="Checkout" asp-action="Index" class="btn btn-success">Proceed to Checkout</a>
+        <form asp-action="ClearCart" method="post" style="display: inline;">
+            <button type="submit" class="btn btn-danger">Clear Cart</button>
+        </form>
+    </div>
+  
+            
+
+
+    }
+
+
+}
+        
+
+    
